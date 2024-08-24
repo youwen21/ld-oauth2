@@ -46,7 +46,7 @@ deploy-remote:build rsync-remote restart-remote
 
 rsync-remote:
 	rsync bin/$(PROGRAM_NAME) $(REMOTE_HOST):$(REMOTE_PROGRAM_PATH)/
-	rsync start_program.sh $(REMOTE_HOST):$(REMOTE_PROGRAM_PATH)/
+	# rsync start_program.sh $(REMOTE_HOST):$(REMOTE_PROGRAM_PATH)/
 
 # 远程重新启动程序
 restart-remote:stop-remote start-remote

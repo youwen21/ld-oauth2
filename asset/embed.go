@@ -7,7 +7,7 @@ import (
 //go:embed dist
 var Dist embed.FS
 
-//go:embed dist
+//go:embed static
 var Static embed.FS
 
 //go:embed favicon_io
