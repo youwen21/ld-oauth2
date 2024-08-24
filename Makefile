@@ -38,6 +38,12 @@ default: deploy-remote
 build:
 	GOOS=linux GOARCH=amd64 go build -ldflags ${ldtags} -o bin/$(PROGRAM_NAME)
 
+build-mac:
+	GOOS=darwin GOARCH=amd64 go build -ldflags ${ldtags} -o bin/$(PROGRAM_NAME)-mac-amd64
+	GOOS=darwin GOARCH=arm64 go build -ldflags ${ldtags} -o bin/$(PROGRAM_NAME)-mac-arm64
+build-windows:
+	GOOS=linux GOARCH=amd64 go build -ldflags ${ldtags} -o bin/$(PROGRAM_NAME)-win-amd64.exe
+
 build-local:
 	go build -ldflags ${ldtags} -o bin/gofly
 
