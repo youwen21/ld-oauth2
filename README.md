@@ -2,9 +2,9 @@
 
 快速接入 Linux.do Oauth2 账号，简化接入Linux.do账号。
 
-## A站对接文档
+## 对接文档
 
-### 对接准备
+### 准备对接
  一个回调地址， url query接收 参数
 ```text
 	Id         int    `json:"id" form:"id"`
@@ -39,15 +39,6 @@ https://player.himyou.com/demo.html
 ### 解析
 player.himyou.com 是一个静态站，没有后台代码， 对接LD-Oauth2服务 也可以获取linux.do user信息。
 
-## 运行原理
-
-### 角色交代
-- Linux.do站: www.linux.do
-- A站 ： 您要接入linux.do账号的站
-- LD-Oauth2服务 ： 本仓库代码服务
-
-LD-Oauth2 是A站和Linux.do站的中间服务，免去A站获取code,  保管token, 刷新token等工作， 直接获取linux.do的用户信息。
-
 
 ## 自搭服务文档
 下载源码编译或者下载执行包, 
@@ -71,8 +62,15 @@ ldauth -ld_client_id="" -ld_client_secret=""
  > https://github.com/youwen21/ld-oauth2
 
 
+## 运行原理
 
+### 角色
+- Linux.do站: www.linux.do
+- A站 ： 您要接入linux.do账号的站
+- LD-Oauth2服务 ： 本仓库代码服务
 
+LD-Oauth2 是A站和Linux.do站的中间服务，免去A站获取code,  保管token, 刷新token等工作， 直接获取linux.do的用户信息。
 
+A站请求LD-Oauth2服务，LD-Oauth2服务从Linux.do站获取用户信息，成功后 跳转回A站，并且携带用户信息。
 
 
