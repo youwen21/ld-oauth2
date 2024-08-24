@@ -1,10 +1,10 @@
 .PHONY:build build-local
 
 # 程序相关信息
-PROGRAM_NAME = gofly-linux-amd64
+PROGRAM_NAME = gofly-ldauth
 
-REMOTE_HOST = myali
-REMOTE_PROGRAM_PATH = /data/go-project/gofly
+REMOTE_HOST = txyun
+REMOTE_PROGRAM_PATH = /data/go-project/ldauth
 
 # 说明 V 参数的指定方式
 #make build-local V=v1.2.3

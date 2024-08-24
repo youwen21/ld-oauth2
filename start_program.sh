@@ -1,1 +1,1 @@
-nohup ./gofly-linux-amd64 1> log.log 2>log.log &
+nohup ./gofly-ldauth 1> log.log 2>log.log &
