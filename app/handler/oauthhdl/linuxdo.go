@@ -61,17 +61,6 @@ func (l *ldHandler) SetRedirect(c *gin.Context) {
 }
 
 func (l *ldHandler) Callback(c *gin.Context) {
-	// 本地调试 localhost 转到 127.0.0.1, ！！！ TODO：重要！ 如果浏览器不支持302 set cookie 会无限跳转 ！！！
-	if c.Request.URL.Host == "" || c.Request.URL.Host == "localhost" {
-		if _, err := c.Cookie("host127"); err != nil {
-			host127 := fmt.Sprintf("http://127.0.0.1:8181/oauth2/callback")
-			host127Url, _ := url.Parse(host127)
-			host127Url.RawQuery = c.Request.URL.RawQuery
-			c.Redirect(http.StatusFound, host127Url.String())
-			return
-		}
-	}
-
 	// 参数接收、 验证
 	codeState := new(ldauth.CodeState)
 	err := c.ShouldBind(codeState)
