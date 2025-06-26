@@ -12,17 +12,23 @@ import (
 	"time"
 )
 
+/*
+// 第一步 业务平台请求到Ld-Auth（本项目）， 设置cookie, 跳转到linux.do authorize
+
+// 第二步 用户在 linux.do 授权， 登录， 注册等
+
+// 第三步 授权完成，跳转到Callback， 使用code置换token, 使用token获取userInfo,
+
+// 第四步 读取 业务平台 入参redirect_to， 补充userInfo信息，跳转到 业务平台。
+
+*/
+
 type ldHandler struct {
 }
 
 var LdHdl = &ldHandler{}
 
-// 第一步 其他平台请求到Auth， 设置cookie, 跳转到linux.do authorize
-
-// 第二步 用户在 linux.do 授权， 登录， 注册等
-
-// 第三步 授权完成，跳转到Callback， 使用code置换token, 使用token获取userInfo,  读取redirect_to， 补充userInfo信息，跳转。
-
+// 业务系统需要授权时，请求此接口
 func (l *ldHandler) Auth(c *gin.Context) {
 	form := new(ldauth_dto.AuthForm)
 	err := c.ShouldBind(form)
@@ -44,6 +50,7 @@ func (l *ldHandler) Auth(c *gin.Context) {
 
 }
 
+// 种下cookie 标识， 跳转到linux.do authorize
 func (l *ldHandler) SetRedirect(c *gin.Context) {
 	form := new(ldauth_dto.AuthForm)
 	err := c.ShouldBind(form)
@@ -60,6 +67,9 @@ func (l *ldHandler) SetRedirect(c *gin.Context) {
 	c.Redirect(http.StatusFound, ldAuthUrl)
 }
 
+// linux.do authorize 授权成功后，callback此接口，
+// 获取用户信息
+// 跳转到业务系统
 func (l *ldHandler) Callback(c *gin.Context) {
 	// 参数接收、 验证
 	codeState := new(ldauth.CodeState)
@@ -80,7 +90,7 @@ func (l *ldHandler) Callback(c *gin.Context) {
 		return
 	}
 
-	// 回调
+	// 回跳业务系统
 	redirectTo, err := c.Cookie("redirect_to")
 	if err != nil { // 不存在redirect_to， 止于这步
 		c.JSON(http.StatusOK, userInfo)

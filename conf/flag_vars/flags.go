@@ -3,6 +3,7 @@ package flag_vars
 import (
 	"flag"
 	"net"
+	"os"
 )
 
 var (
@@ -29,6 +30,10 @@ func Host() string {
 }
 
 func Port() string {
+	envPort := os.Getenv("LD_PORT")
+	if envPort != "" {
+		return envPort
+	}
 	return *port
 }
 

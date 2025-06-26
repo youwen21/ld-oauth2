@@ -1,11 +1,41 @@
 # LD-Oauth2
+本项目目的： 帮佬友快速对接 Linux.do Oauth2, 简化对接linux.do登录流程
 
-快速接入 Linux.do Oauth2 账号，简化接入Linux.do账号。
+本系统帮业务系统简化的工作：
+ - token 过期维护
+ - token 置换 用户信息
+ - OAuth2 验证
+
+## 角色说明
+- 用户： 访问业务系统的用户，需要获取linux.do用户信息
+- 业务系统： 需要对接linux.do的 系统。
+- ld-auth: 本应用。
+- linux.do：linux.do站（简称：L站）。
 
 ## 对接文档
 
-### 准备对接
- 一个回调地址， url query接收 参数
+## 执行流程
+业务系统 -> ld-auth -> ld-auth -> L站 -> ld-auth -> 业务系统
+
+- 用户在业务系统 请求 linux.do 用户信息授权， 业务系统准备参数， 跳转到 ld-auth
+- ld-auth 自跳转一次， 设置cookie 信息 （没有数据库，用 cookie保存信息， 所以需要本次跳转）
+- ld-auth 跳转到 linux.do, 用户 授权用户信息
+- linux.do 回调跳转到 ld-auth
+- ld-auth 回调跳转到 业务系统
+- 业务系统 接收用户信息
+
+## 业务系统工作
+ - 组装请求ld-auth 的参数
+ - 准备一个回调地址，接收linux.do 用户信息
+
+`请求参数`
+```text
+	redirect_to string `json:"redirect_to" form:"redirect_to"` // 业务系统回调地址
+	check-param-x string `json:"check-param-x" form:"check-param-x"` // 非必须
+```
+
+
+`业务系统回调地址 - 回调参数` 
 ```text
 	Id         int    `json:"id" form:"id"`
 	Username   string `json:"username" form:"username"`
